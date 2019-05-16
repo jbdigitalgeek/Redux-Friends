@@ -1,73 +1,47 @@
 import axios from "axios";
+export const LOGIN_START = "LOGIN_START";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
-export const ERROR = "ERROR";
-export const FETCH_FRIENDS = "FETCH_FRIENDS";
-export const FETCHING_FRIENDS = "FETCHING_FRIENDS";
-export const CREATING_FRIEND = "CREATING_FRIEND";
-export const CREATE_FRIEND = "CREATE_FRIEND";
-export const UPDATE_FRIEND = "UPDATE_FRIENDS";
-export const DELETE_FRIEND = "DELETE_FRIEND";
-export const UPDATING_FRIEND = "UPDATING_FRIEND";
-export const DELETING_FRIEND = "DELETING_FRIEND";
-export const SINGLE_FRIEND = "SINGLE_FRIEND";
-export const TOGGLE_UPDATE_FRIEND = "TOGGLE_UPDATE_FRIEND";
+export const LOGOUT = "LOGOUT";
 
-const URL = "http://localhost:5000/api/friends";
+export const FRIENDS_START = "FRIENDS_START";
+export const FRIENDS_SUCCESS = "FRIENDS_SUCCESS";
+export const FRIENDS_FAILURE = "FRIENDS_FAILURE";
 
-export const fetchFriends = () => {
-  const friends = axios.get(`${URL}/get`);
-  return dispatch => {
-    dispatch({ type: FETCHING_FRIENDS });
-    friends
-      .then(response => {
-        dispatch({ type: FETCH_FRIENDS, payload: response.data });
-      })
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err });
-      });
-  };
+export const ADD_START = "ADD_START";
+export const ADD_SUCCESS = "ADD_SUCCESS";
+export const ADD_FAILURE = "ADD_FAILURE";
+
+const baseUrl = "http://localhost:5000";
+
+export const handleLogin = user => dispatch => {
+  dispatch({ type: LOGIN_START });
+  axios
+    .post(`${baseUrl}/api/login`, user)
+    .then(res => dispatch({ type: LOGIN_SUCCESS, payload: res.data.payload }))
+    .catch(err => dispatch({ type: LOGIN_FAILURE, payload: err }));
 };
 
-export const createFriend = friend => {
-  const newFriend = axios.post(`${URL}/create`, friend);
-  return dispatch => {
-    dispatch({ type: CREATING_FRIEND });
-    newFriend
-      .then(({ data }) => {
-        dispatch({ type: CREATE_FRIEND, payload: data });
-      })
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err });
-      });
-  };
+export const handleGetFriends = token => dispatch => {
+  dispatch({ type: FRIENDS_START });
+  axios
+    .get(`${baseUrl}/api/friends`, { headers: { authorization: token } })
+    .then(res => dispatch({ type: FRIENDS_SUCCESS, payload: res.data }))
+    .catch(err => dispatch({ type: FRIENDS_FAILURE, payload: err }));
 };
 
-export const deleteFriend = id => {
-  const deletedFriend = axios.delete(`${URL}/delete`, {
-    data: { id }
-  });
-  return dispatch => {
-    dispatch({ type: DELETING_FRIEND });
-    deletedFriend
-      .then(({ data }) => {
-        dispatch({ type: DELETE_FRIEND, payload: data });
-        dispatch({ type: SINGLE_FRIEND, payload: {} });
-      })
-      .catch(err => {
-        dispatch({ type: ERROR, payload: err });
-      });
-  };
+export const handleAddFriend = (token, friend) => dispatch => {
+  dispatch({ type: ADD_START });
+  console.log(token);
+  axios
+    .post(`${baseUrl}/api/friends`, friend, {
+      headers: { authorization: token }
+    })
+    .then(res => dispatch({ type: ADD_SUCCESS, payload: res.data }))
+    .catch(err => dispatch({ type: ADD_FAILURE, payload: err }));
 };
 
-export const toggleDisplayUpdate = () => {
-  return {
-    type: TOGGLE_UPDATE_FRIEND
-  };
-};
-
-export const updateSingleFriend = friend => {
-  return {
-    type: SINGLE_FRIEND,
-    payload: friend
-  };
+export const handleLogout = () => dispatch => {
+  dispatch({ type: LOGOUT });
 };

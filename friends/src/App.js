@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LoginForm } from './components'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { handleLogin } from "./actions";
 import FriendList from './components/FriendList';
 import PrivateRoute from './PrivateRoute';
 import './App.css';
