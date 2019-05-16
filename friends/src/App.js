@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LoginForm } from './components'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import FriendList from './components/FriendList';
+import PrivateRoute from './PrivateRoute';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <Route exact path="/"
+        <Route path="/"
           render={props => (<LoginForm {...props} handleLogin={this.props.handleLogin} />
           )}
-          />
+        />
+        <PrivateRoute exact path="/protected" component={FriendList} />
      </Router>
     );
   }

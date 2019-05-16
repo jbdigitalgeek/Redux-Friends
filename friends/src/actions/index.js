@@ -1,20 +1,20 @@
-import axios from 'axios';
+import axios from "axios";
 
- export const ERROR = 'ERROR';
-export const FETCH_FRIENDS = 'FETCH_FRIENDS';
-export const FETCHING_FRIENDS = 'FETCHING_FRIENDS';
-export const CREATING_FRIEND = 'CREATING_FRIEND';
-export const CREATE_FRIEND = 'CREATE_FRIEND';
-export const UPDATE_FRIEND = 'UPDATE_FRIENDS';
-export const DELETE_FRIEND = 'DELETE_FRIEND';
-export const UPDATING_FRIEND = 'UPDATING_FRIEND';
-export const DELETING_FRIEND = 'DELETING_FRIEND';
-export const SINGLE_FRIEND = 'SINGLE_FRIEND';
-export const TOGGLE_UPDATE_FRIEND = 'TOGGLE_UPDATE_FRIEND';
+export const ERROR = "ERROR";
+export const FETCH_FRIENDS = "FETCH_FRIENDS";
+export const FETCHING_FRIENDS = "FETCHING_FRIENDS";
+export const CREATING_FRIEND = "CREATING_FRIEND";
+export const CREATE_FRIEND = "CREATE_FRIEND";
+export const UPDATE_FRIEND = "UPDATE_FRIENDS";
+export const DELETE_FRIEND = "DELETE_FRIEND";
+export const UPDATING_FRIEND = "UPDATING_FRIEND";
+export const DELETING_FRIEND = "DELETING_FRIEND";
+export const SINGLE_FRIEND = "SINGLE_FRIEND";
+export const TOGGLE_UPDATE_FRIEND = "TOGGLE_UPDATE_FRIEND";
 
- const URL = 'http://localhost:5000/api/friends';
+const URL = "http://localhost:5000/api/friends";
 
- export const fetchFriends = () => {
+export const fetchFriends = () => {
   const friends = axios.get(`${URL}/get`);
   return dispatch => {
     dispatch({ type: FETCHING_FRIENDS });
@@ -28,7 +28,7 @@ export const TOGGLE_UPDATE_FRIEND = 'TOGGLE_UPDATE_FRIEND';
   };
 };
 
- export const createFriend = friend => {
+export const createFriend = friend => {
   const newFriend = axios.post(`${URL}/create`, friend);
   return dispatch => {
     dispatch({ type: CREATING_FRIEND });
@@ -42,7 +42,7 @@ export const TOGGLE_UPDATE_FRIEND = 'TOGGLE_UPDATE_FRIEND';
   };
 };
 
- export const deleteFriend = id => {
+export const deleteFriend = id => {
   const deletedFriend = axios.delete(`${URL}/delete`, {
     data: { id }
   });
@@ -59,13 +59,13 @@ export const TOGGLE_UPDATE_FRIEND = 'TOGGLE_UPDATE_FRIEND';
   };
 };
 
- export const toggleDisplayUpdate = () => {
+export const toggleDisplayUpdate = () => {
   return {
     type: TOGGLE_UPDATE_FRIEND
   };
 };
 
- export const updateSingleFriend = friend => {
+export const updateSingleFriend = friend => {
   return {
     type: SINGLE_FRIEND,
     payload: friend
